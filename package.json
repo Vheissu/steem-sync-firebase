@@ -1,0 +1,23 @@
+{
+  "name": "steem-sync-firebase",
+  "version": "1.0.0",
+  "description": "A simple Node.js application that syncs streamed Steem blockchain content and stores it in Firebase.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vheissu/steem-sync-firebase.git"
+  },
+  "author": "Dwayne Charrington",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vheissu/steem-sync-firebase/issues"
+  },
+  "homepage": "https://github.com/Vheissu/steem-sync-firebase#readme",
+  "dependencies": {
+    "dsteem": "^0.9.0",
+    "firebase": "^5.2.0"
+  }
+}
