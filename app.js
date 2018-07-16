@@ -19,7 +19,7 @@ firebase.initializeApp(config);
 const db = firebase.firestore();
 
 // Required for snapshot timestamps or Firebase throws a warning in the console
-const settings = {timestampsInSnapshots: true};
+const settings = { timestampsInSnapshots: true };
 
 // Configure Firestore with our settings
 db.settings(settings);
@@ -33,31 +33,31 @@ const stream = client.blockchain.getOperationsStream();
 // Watch the "data" event for operations taking place on Steem
 // This gets updated approximately every 3 seconds
 stream.on('data', operation => {
-	// Get the block operation
-	const OPERATION_TYPE = operation.op[0];
+    // Get the block operation
+    const OPERATION_TYPE = operation.op[0];
 
-	// The types of operations we want to store, in this case posts are operation type "comment"
-	const ALLOWED_OPERATION_TYPES = ['comment'];
+    // The types of operations we want to store, in this case posts are operation type "comment"
+    const ALLOWED_OPERATION_TYPES = ['comment'];
 
-	// If the streamed operation is in the allowed operation types array
-	if (ALLOWED_OPERATION_TYPES.includes(OPERATION_TYPE)) {
-		// Get the object representation of the operation (it's content including json meta)
-		const OPERATION_OBJECT = operation.op[1];
+    // If the streamed operation is in the allowed operation types array
+    if (ALLOWED_OPERATION_TYPES.includes(OPERATION_TYPE)) {
+        // Get the object representation of the operation (it's content including json meta)
+        const OPERATION_OBJECT = operation.op[1];
 
-		// Is this a user post or is it a comment on a post? Posts do not have a parent author, comments do
+        // Is this a user post or is it a comment on a post? Posts do not have a parent author, comments do
         const CONTENT_TYPE = OPERATION_OBJECT.parent_author === '' ? 'post' : 'comment';
-        
+
         // Convert json_metadata into a real JSON object to be stored
         if (OPERATION_OBJECT.json_metadata) {
             OPERATION_OBJECT.json_metadata = JSON.parse(OPERATION_OBJECT.json_metadata);
         }
 
-		// If this operation is a post
-		if (CONTENT_TYPE === 'post') {
+        // If this operation is a post
+        if (CONTENT_TYPE === 'post') {
             db.collection('posts').add(OPERATION_OBJECT);
-        // This operation is a comment
-		} else if (CONTENT_TYPE === 'comment') {
+            // This operation is a comment
+        } else if (CONTENT_TYPE === 'comment') {
             db.collection('comments').add(OPERATION_OBJECT);
         }
-	}
+    }
 });
